@@ -3,13 +3,13 @@ package main
 import (
 	"encoding/xml"
 	"flag"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
 
+	"github.com/erbesharat/gomapit/fileio"
 	httphandler "github.com/erbesharat/gomapit/handler"
 	"github.com/erbesharat/gomapit/sitemap"
 )
@@ -77,5 +77,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("[gomapit]: Could'nt generate the xml from sitemap struct: %s", err.Error())
 	}
-	fmt.Println(string(xml))
+
+	if err := fileio.WriteXML(xml, output); err != nil {
+		log.Fatalf("[gomapit]: Couldn't write to the file: %s", err.Error())
+	}
 }
